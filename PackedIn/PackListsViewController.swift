@@ -63,6 +63,9 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
         if let font = UIFont(name: "Lato-Light.ttf", size: 34) {
             UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: font]
         }
+        
+        newPackListInput.attributedPlaceholder = NSAttributedString(string:"创建小清单",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,11 +76,13 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "packItemsViewSegue"{
             var packItemsViewController: PackItemsViewController = segue.destinationViewController as PackItemsViewController
-            if let indexPath = self.packListsTableView.indexPathForSelectedRow()?.row{
-                packItemsViewController.packList = self.packLists[indexPath]
+            
+            if let indexPath = self.packListsTableView.indexPathForSelectedRow() {
+                packItemsViewController.packList = self.packLists[indexPath.section]
             } else {
                 print("failed")
             }
+
         }
     }
     
@@ -119,15 +124,32 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
         return true
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // 1
+        // Return the number of sections.
+        return packLists.count
+    }
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var title: UILabel = UILabel()
+        title.backgroundColor = UIColor.clearColor()
+        return title
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2.0
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return packLists.count
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let tempCell = tableView.dequeueReusableCellWithIdentifier("packListIdentifier", forIndexPath: indexPath) as UITableViewCell
-        let packList: PackList = packLists[indexPath.row]
-        
+        let packList: PackList = packLists[indexPath.section]
+        tempCell.layer.cornerRadius = 5.0
+
         let cell = tempCell.textLabel as UILabel!
         cell.text = packList.name
         

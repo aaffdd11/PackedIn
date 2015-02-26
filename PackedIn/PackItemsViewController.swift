@@ -49,6 +49,10 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         packItemsTableView.dataSource = self
         
         packItemsNavItem.title = packList?.name
+        
+        newPackItemInput.attributedPlaceholder = NSAttributedString(string:"添加小东西",
+            attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,14 +99,31 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         return true
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // 1
+        // Return the number of sections.
+        return packItems.count
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var title: UILabel = UILabel()
+        title.backgroundColor = UIColor.clearColor()
+        return title
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2.0
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return packItems.count
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let tempCell = tableView.dequeueReusableCellWithIdentifier("packItemIdentifier", forIndexPath: indexPath) as UITableViewCell
-        let packItem: PackItem = packItems[indexPath.row]
+        let packItem: PackItem = packItems[indexPath.section]
+        tempCell.layer.cornerRadius = 5.0
         
         let cell = tempCell.textLabel as UILabel!
         cell.text = packItem.name
