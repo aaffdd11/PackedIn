@@ -44,6 +44,25 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         packListsTableView.delegate = self
         packListsTableView.dataSource = self
+        
+        if let navCtrller = self.navigationController {
+            navCtrller.navigationBar.setBackgroundImage(UIImage(named: "header-bg"), forBarMetrics: UIBarMetrics.Default)
+            navCtrller.navigationBar.shadowImage = UIImage(named: "header-shadow")
+            navCtrller.navigationBar.translucent = true
+            
+            if let font = UIFont(name: "HanziPen SC", size: 20) {
+                navCtrller.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
+            } else {
+                println("Error loading Font")
+                println(UIFont.familyNames())
+            }
+        } else {
+            println("error loading navcontroller")
+        }
+        
+        if let font = UIFont(name: "Lato-Light.ttf", size: 34) {
+            UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: font]
+        }
     }
 
     override func didReceiveMemoryWarning() {
