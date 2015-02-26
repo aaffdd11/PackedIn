@@ -17,6 +17,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     var packItems = [PackItem]()
     var packItem: PackItem?
     
+    @IBOutlet weak var packListDescInput: UITextField!
     @IBOutlet weak var packItemsNavItem: UINavigationItem!
     @IBOutlet weak var newPackItemInput: UITextField!
     @IBOutlet weak var packItemsTableView: UITableView!
@@ -52,6 +53,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         newPackItemInput.attributedPlaceholder = NSAttributedString(string:"添加小东西",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
 
     }
 
@@ -65,7 +67,6 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         if (countElements(self.newPackItemInput.text) > 0) {
             //1
             println("1")
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             let managedContext = appDelegate.managedObjectContext!
             
             //2
@@ -96,6 +97,9 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             self.packItemsTableView.reloadData()
         }
         
+        if (countElements(self.packListDescInput.text) > 0) {
+            self.packList?.desc = self.packListDescInput.text
+        }
         return true
     }
     
