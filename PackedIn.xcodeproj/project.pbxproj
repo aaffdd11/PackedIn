@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25733D2D1A9F170500B4EF5B /* PackItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */; };
 		257CEA001A9EEDCA00426482 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CE9FF1A9EEDCA00426482 /* AppDelegate.swift */; };
 		257CEA031A9EEDCA00426482 /* PackedIn.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA011A9EEDCA00426482 /* PackedIn.xcdatamodeld */; };
 		257CEA051A9EEDCA00426482 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA041A9EEDCA00426482 /* ViewController.swift */; };
@@ -14,6 +15,10 @@
 		257CEA0A1A9EEDCA00426482 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257CEA091A9EEDCA00426482 /* Images.xcassets */; };
 		257CEA0D1A9EEDCA00426482 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 257CEA0B1A9EEDCA00426482 /* LaunchScreen.xib */; };
 		257CEA191A9EEDCA00426482 /* PackedInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA181A9EEDCA00426482 /* PackedInTests.swift */; };
+		257CEA231A9EF92900426482 /* HanZiPenSC.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 257CEA221A9EF92900426482 /* HanZiPenSC.ttf */; };
+		257CEA251A9F032A00426482 /* PackListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA241A9F032A00426482 /* PackListsViewController.swift */; };
+		257CEA271A9F042800426482 /* PackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA261A9F042800426482 /* PackList.swift */; };
+		257CEA291A9F042800426482 /* PackItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA281A9F042800426482 /* PackItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackItemsViewController.swift; sourceTree = "<group>"; };
 		257CE9FA1A9EEDCA00426482 /* PackedIn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PackedIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		257CE9FE1A9EEDCA00426482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257CE9FF1A9EEDCA00426482 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +44,10 @@
 		257CEA121A9EEDCA00426482 /* PackedInTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PackedInTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		257CEA171A9EEDCA00426482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257CEA181A9EEDCA00426482 /* PackedInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedInTests.swift; sourceTree = "<group>"; };
+		257CEA221A9EF92900426482 /* HanZiPenSC.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HanZiPenSC.ttf; sourceTree = "<group>"; };
+		257CEA241A9F032A00426482 /* PackListsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackListsViewController.swift; sourceTree = "<group>"; };
+		257CEA261A9F042800426482 /* PackList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackList.swift; sourceTree = "<group>"; };
+		257CEA281A9F042800426482 /* PackItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,9 +92,13 @@
 				257CE9FF1A9EEDCA00426482 /* AppDelegate.swift */,
 				257CEA041A9EEDCA00426482 /* ViewController.swift */,
 				257CEA061A9EEDCA00426482 /* Main.storyboard */,
+				257CEA241A9F032A00426482 /* PackListsViewController.swift */,
+				25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */,
 				257CEA091A9EEDCA00426482 /* Images.xcassets */,
 				257CEA0B1A9EEDCA00426482 /* LaunchScreen.xib */,
 				257CEA011A9EEDCA00426482 /* PackedIn.xcdatamodeld */,
+				257CEA281A9F042800426482 /* PackItem.swift */,
+				257CEA261A9F042800426482 /* PackList.swift */,
 				257CE9FD1A9EEDCA00426482 /* Supporting Files */,
 			);
 			path = PackedIn;
@@ -93,6 +107,7 @@
 		257CE9FD1A9EEDCA00426482 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				257CEA221A9EF92900426482 /* HanZiPenSC.ttf */,
 				257CE9FE1A9EEDCA00426482 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -196,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				257CEA081A9EEDCA00426482 /* Main.storyboard in Resources */,
+				257CEA231A9EF92900426482 /* HanZiPenSC.ttf in Resources */,
 				257CEA0D1A9EEDCA00426482 /* LaunchScreen.xib in Resources */,
 				257CEA0A1A9EEDCA00426482 /* Images.xcassets in Resources */,
 			);
@@ -215,7 +231,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25733D2D1A9F170500B4EF5B /* PackItemsViewController.swift in Sources */,
 				257CEA051A9EEDCA00426482 /* ViewController.swift in Sources */,
+				257CEA271A9F042800426482 /* PackList.swift in Sources */,
+				257CEA251A9F032A00426482 /* PackListsViewController.swift in Sources */,
+				257CEA291A9F042800426482 /* PackItem.swift in Sources */,
 				257CEA031A9EEDCA00426482 /* PackedIn.xcdatamodeld in Sources */,
 				257CEA001A9EEDCA00426482 /* AppDelegate.swift in Sources */,
 			);
@@ -409,6 +429,7 @@
 				257CEA1E1A9EEDCA00426482 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		257CEA1F1A9EEDCA00426482 /* Build configuration list for PBXNativeTarget "PackedInTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +438,7 @@
 				257CEA211A9EEDCA00426482 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
