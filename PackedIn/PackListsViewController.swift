@@ -15,7 +15,8 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var packLists = [PackList]()
     var packList: PackList?
-
+    
+    @IBOutlet weak var packListsNavItem: UINavigationItem!
     @IBOutlet weak var newPackListInput: UITextField!
     @IBOutlet weak var packListsTableView: UITableView!
     

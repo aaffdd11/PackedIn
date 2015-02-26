@@ -17,19 +17,18 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     var packItems = [PackItem]()
     var packItem: PackItem?
     
-    @IBOutlet weak var packItemsViewTitle: UILabel!
+    @IBOutlet weak var packItemsNavItem: UINavigationItem!
     @IBOutlet weak var newPackItemInput: UITextField!
     @IBOutlet weak var packItemsTableView: UITableView!
     
     func loadInitialData() {
         let managedContext = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest(entityName:"PackItem")
-//        fetchRequest.predicate = NSPredicate(format: "belongTo = %@", argumentArray: [self.packerListObject!])
+        fetchRequest.predicate = NSPredicate(format: "belongTo = %@", argumentArray: [self.packList!])
         
         var error: NSError?
         let fetchedResults = managedContext.executeFetchRequest(fetchRequest,
             error: &error) as [PackItem]?
-        
         
         if let results = fetchedResults {
             packItems = results.reverse()
@@ -48,7 +47,8 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         packItemsTableView.delegate = self
         packItemsTableView.dataSource = self
-        packItemsViewTitle.text = self.packItem?.name
+        
+        packItemsNavItem.title = packList?.name
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,6 +76,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             //3
             println("3")
             packItem.setValue(self.newPackItemInput.text, forKey: "name")
+            packItem.setValue(self.packList, forKey: "belongTo")
             
             //4
             println("4")
