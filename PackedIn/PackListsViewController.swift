@@ -20,6 +20,11 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var newPackListInput: UITextField!
     @IBOutlet weak var packListsTableView: UITableView!
     
+    @IBAction func unWind(segue:UIStoryboardSegue){
+        // This line can be improved. does not have to loadInitialData every time.
+        self.packListsTableView.reloadData()
+    }
+    
     func loadInitialData() {
         let managedContext = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest(entityName:"PackList")
@@ -60,10 +65,6 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
             println("error loading navcontroller")
         }
         
-        if let font = UIFont(name: "Lato-Light.ttf", size: 34) {
-            UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: font]
-        }
-        
         newPackListInput.attributedPlaceholder = NSAttributedString(string:"创建小清单",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
@@ -90,12 +91,10 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     {
         if (countElements(self.newPackListInput.text) > 0) {
             //1
-            println("1")
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             let managedContext = appDelegate.managedObjectContext!
             
             //2
-            println("2")
             let entity =  NSEntityDescription.entityForName("PackList",
                 inManagedObjectContext:
                 managedContext)
@@ -104,18 +103,16 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
                 insertIntoManagedObjectContext:managedContext)
             
             //3
-            println("3")
             packList.setValue(self.newPackListInput.text, forKey: "name")
+            packList.setValue("", forKey: "desc")
             
             //4
-            println("4")
             var error: NSError?
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
             //5
-            println("5")
             packLists.insert(packList, atIndex: 0)
             self.newPackListInput.text = ""
             self.packListsTableView.reloadData()
@@ -153,7 +150,8 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tempCell.textLabel as UILabel!
         cell.text = packList.name
         
-        // Configure the cell...
+        let subtitle = tempCell.detailTextLabel as UILabel!
+        subtitle.text = packList.desc
         
         return tempCell
     }

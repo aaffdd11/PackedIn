@@ -67,7 +67,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="815" y="301"/>
+            <point key="canvasLocation" x="491" y="-419"/>
         </scene>
         <!--出门小清单-->
         <scene sceneID="drM-hT-Ota">
@@ -81,7 +81,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="Dk7-69-RfR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" id="Dk7-69-RfR">
                                 <rect key="frame" x="16" y="0.0" width="288" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -95,13 +95,13 @@
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Rw-kr-xXb">
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="24"/>
+                                                    <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tSN-zy-Fcd">
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -120,7 +120,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -134,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W42-Eg-424" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1782" y="303"/>
+            <point key="canvasLocation" x="924" y="-419"/>
         </scene>
         <!--某个清单-->
         <scene sceneID="lwn-A5-1fT">
@@ -148,7 +148,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="HPm-Q8-1cz">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="36" sectionHeaderHeight="22" sectionFooterHeight="22" id="HPm-Q8-1cz">
                                 <rect key="frame" x="16" y="0.0" width="288" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -162,7 +162,7 @@
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BMB-hL-VtJ">
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -185,13 +185,20 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HanziPenSC-W3" family="HanziPen SC" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="某个清单" id="Hkq-kj-uc2"/>
+                    <navigationItem key="navigationItem" title="某个清单" id="Hkq-kj-uc2">
+                        <barButtonItem key="leftBarButtonItem" title="返回" id="qaH-v8-1rR">
+                            <connections>
+                                <segue destination="zdH-tr-PJG" kind="unwind" unwindAction="unWind:" id="OMX-2Q-fqq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="backButton" destination="qaH-v8-1rR" id="gAZ-Rx-CSl"/>
                         <outlet property="newPackItemInput" destination="Nfs-Ce-kgW" id="ogS-uN-Glp"/>
                         <outlet property="packItemsNavItem" destination="Hkq-kj-uc2" id="bP6-yT-ahK"/>
                         <outlet property="packItemsTableView" destination="HPm-Q8-1cz" id="cE5-Bv-HIo"/>
@@ -199,23 +206,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zfA-18-xwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="zdH-tr-PJG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2299" y="303"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="xaK-SK-hfz">
-            <objects>
-                <viewController id="4MU-ej-czM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VMy-HT-8U0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="NCv-f1-0Hh"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7Wt-aj-miW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3775" y="301"/>
+            <point key="canvasLocation" x="1375" y="-419"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ve7-I5-1Hm">
@@ -235,7 +228,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wOs-vl-WEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1250" y="303"/>
+            <point key="canvasLocation" x="491" y="259"/>
         </scene>
     </scenes>
     <resources>

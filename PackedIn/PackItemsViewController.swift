@@ -17,6 +17,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     var packItems = [PackItem]()
     var packItem: PackItem?
     
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var packListDescInput: UITextField!
     @IBOutlet weak var packItemsNavItem: UINavigationItem!
     @IBOutlet weak var newPackItemInput: UITextField!
@@ -44,6 +45,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
         loadInitialData()
         
+        self.packListDescInput.delegate = self
         self.newPackItemInput.delegate = self
         
         packItemsTableView.delegate = self
@@ -54,6 +56,24 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         newPackItemInput.attributedPlaceholder = NSAttributedString(string:"添加小东西",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
+        if let packList = self.packList? {
+            println(packList.objectID)
+            println(packList.desc)
+            packListDescInput.text = packList.desc
+        } else {
+            println("no desc yet")
+        }
+        
+//        if let navCtrller = self.navigationController {
+//            if let font = UIFont(name: "HanziPen SC", size: 20) {
+//                navCtrller.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
+//            } else {
+//                println("Error loading Font")
+//                println(UIFont.familyNames())
+//            }
+//        } else {
+//            println("error loading navcontroller")
+//        }
 
     }
 
@@ -66,11 +86,9 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     {
         if (countElements(self.newPackItemInput.text) > 0) {
             //1
-            println("1")
             let managedContext = appDelegate.managedObjectContext!
             
             //2
-            println("2")
             let entity =  NSEntityDescription.entityForName("PackItem",
                 inManagedObjectContext:
                 managedContext)
@@ -79,26 +97,28 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
                 insertIntoManagedObjectContext:managedContext)
             
             //3
-            println("3")
             packItem.setValue(self.newPackItemInput.text, forKey: "name")
             packItem.setValue(self.packList, forKey: "belongTo")
             
             //4
-            println("4")
             var error: NSError?
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
             //5
-            println("5")
             packItems.insert(packItem, atIndex: 0)
             self.newPackItemInput.text = ""
             self.packItemsTableView.reloadData()
         }
         
-        if (countElements(self.packListDescInput.text) > 0) {
-            self.packList?.desc = self.packListDescInput.text
+        if (self.packListDescInput.text != self.packList?.desc) {
+            let managedContext = appDelegate.managedObjectContext!
+            self.packList?.setValue(self.packListDescInput.text, forKey: "desc")
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
         }
         return true
     }
@@ -136,7 +156,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         return tempCell
     }
-
+    
     /*
     // MARK: - Navigation
 
