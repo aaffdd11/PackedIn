@@ -58,7 +58,7 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
             if let font = UIFont(name: "HanziPen SC", size: 20) {
                 navCtrller.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
             } else {
-                println("Error loading Font")
+                println("Error loading Font, listing available fonts")
                 println(UIFont.familyNames())
             }
         } else {

@@ -57,24 +57,10 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
         if let packList = self.packList? {
-            println(packList.objectID)
-            println(packList.desc)
             packListDescInput.text = packList.desc
         } else {
             println("no desc yet")
         }
-        
-//        if let navCtrller = self.navigationController {
-//            if let font = UIFont(name: "HanziPen SC", size: 20) {
-//                navCtrller.navigationBar.titleTextAttributes = [NSFontAttributeName: font]
-//            } else {
-//                println("Error loading Font")
-//                println(UIFont.familyNames())
-//            }
-//        } else {
-//            println("error loading navcontroller")
-//        }
-
     }
 
     override func didReceiveMemoryWarning() {
