@@ -94,7 +94,7 @@
 				257CEA061A9EEDCA00426482 /* Main.storyboard */,
 				257CEA0B1A9EEDCA00426482 /* LaunchScreen.xib */,
 				25DF27AE1AA21F3B0008D072 /* models */,
-				25DF27AF1AA21F510008D072 /* views */,
+				25DF27AF1AA21F510008D072 /* controllers */,
 				257CEA091A9EEDCA00426482 /* Images.xcassets */,
 				257CE9FD1A9EEDCA00426482 /* Supporting Files */,
 			);
@@ -137,13 +137,13 @@
 			name = models;
 			sourceTree = "<group>";
 		};
-		25DF27AF1AA21F510008D072 /* views */ = {
+		25DF27AF1AA21F510008D072 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
 				257CEA241A9F032A00426482 /* PackListsViewController.swift */,
 				25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */,
 			);
-			name = views;
+			name = controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
