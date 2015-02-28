@@ -93,8 +93,8 @@
 				257CEA041A9EEDCA00426482 /* ViewController.swift */,
 				257CEA061A9EEDCA00426482 /* Main.storyboard */,
 				257CEA0B1A9EEDCA00426482 /* LaunchScreen.xib */,
-				25DF27AE1AA21F3B0008D072 /* models */,
 				25DF27AF1AA21F510008D072 /* controllers */,
+				25DF27AE1AA21F3B0008D072 /* models */,
 				257CEA091A9EEDCA00426482 /* Images.xcassets */,
 				257CE9FD1A9EEDCA00426482 /* Supporting Files */,
 			);
