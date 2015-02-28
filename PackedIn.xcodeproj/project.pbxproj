@@ -19,6 +19,7 @@
 		257CEA251A9F032A00426482 /* PackListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA241A9F032A00426482 /* PackListsViewController.swift */; };
 		257CEA271A9F042800426482 /* PackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA261A9F042800426482 /* PackList.swift */; };
 		257CEA291A9F042800426482 /* PackItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257CEA281A9F042800426482 /* PackItem.swift */; };
+		25DF27B51AA238D40008D072 /* PackItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DF27B41AA238D40008D072 /* PackItemsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		257CEA241A9F032A00426482 /* PackListsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackListsViewController.swift; sourceTree = "<group>"; };
 		257CEA261A9F042800426482 /* PackList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackList.swift; sourceTree = "<group>"; };
 		257CEA281A9F042800426482 /* PackItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackItem.swift; sourceTree = "<group>"; };
+		25DF27B41AA238D40008D072 /* PackItemsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackItemsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				257CEA061A9EEDCA00426482 /* Main.storyboard */,
 				257CEA0B1A9EEDCA00426482 /* LaunchScreen.xib */,
 				25DF27AF1AA21F510008D072 /* controllers */,
+				25DF27B31AA238B00008D072 /* views */,
 				25DF27AE1AA21F3B0008D072 /* models */,
 				257CEA091A9EEDCA00426482 /* Images.xcassets */,
 				257CE9FD1A9EEDCA00426482 /* Supporting Files */,
@@ -144,6 +147,14 @@
 				25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */,
 			);
 			name = controllers;
+			sourceTree = "<group>";
+		};
+		25DF27B31AA238B00008D072 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				25DF27B41AA238D40008D072 /* PackItemsTableViewCell.swift */,
+			);
+			name = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +262,7 @@
 				25733D2D1A9F170500B4EF5B /* PackItemsViewController.swift in Sources */,
 				257CEA051A9EEDCA00426482 /* ViewController.swift in Sources */,
 				257CEA271A9F042800426482 /* PackList.swift in Sources */,
+				25DF27B51AA238D40008D072 /* PackItemsTableViewCell.swift in Sources */,
 				257CEA251A9F032A00426482 /* PackListsViewController.swift in Sources */,
 				257CEA291A9F042800426482 /* PackItem.swift in Sources */,
 				257CEA031A9EEDCA00426482 /* PackedIn.xcdatamodeld in Sources */,

@@ -50,6 +50,9 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         packItemsTableView.delegate = self
         packItemsTableView.dataSource = self
+
+        
+        packItemsTableView.registerClass(PackItemsTableViewCell.self, forCellReuseIdentifier: "packItemIdentifier")
         
         packItemsNavItem.title = packList?.name
         
@@ -131,12 +134,20 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let tempCell = tableView.dequeueReusableCellWithIdentifier("packItemIdentifier", forIndexPath: indexPath) as UITableViewCell
+        let tempCell = tableView.dequeueReusableCellWithIdentifier("packItemIdentifier", forIndexPath: indexPath) as PackItemsTableViewCell
         let packItem: PackItem = packItems[indexPath.section]
         tempCell.layer.cornerRadius = 5.0
+        tempCell.textLabel!.text = packItem.name
+        if let font = UIFont(name: "HanziPen SC", size: 15) {
+            tempCell.textLabel!.font = font
+        } else {
+            println("Error loading Font, listing available fonts")
+            println(UIFont.familyNames())
+        }
         
-        let cell = tempCell.textLabel as UILabel!
-        cell.text = packItem.name
+//        
+//        let cell = tempCell.textLabel as UILabel!
+//        cell.text = packItem.name
         
         // Configure the cell...
         
