@@ -92,13 +92,10 @@
 				257CE9FF1A9EEDCA00426482 /* AppDelegate.swift */,
 				257CEA041A9EEDCA00426482 /* ViewController.swift */,
 				257CEA061A9EEDCA00426482 /* Main.storyboard */,
-				257CEA241A9F032A00426482 /* PackListsViewController.swift */,
-				25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */,
-				257CEA091A9EEDCA00426482 /* Images.xcassets */,
 				257CEA0B1A9EEDCA00426482 /* LaunchScreen.xib */,
-				257CEA011A9EEDCA00426482 /* PackedIn.xcdatamodeld */,
-				257CEA281A9F042800426482 /* PackItem.swift */,
-				257CEA261A9F042800426482 /* PackList.swift */,
+				25DF27AE1AA21F3B0008D072 /* models */,
+				25DF27AF1AA21F510008D072 /* views */,
+				257CEA091A9EEDCA00426482 /* Images.xcassets */,
 				257CE9FD1A9EEDCA00426482 /* Supporting Files */,
 			);
 			path = PackedIn;
@@ -128,6 +125,25 @@
 				257CEA171A9EEDCA00426482 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		25DF27AE1AA21F3B0008D072 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				257CEA011A9EEDCA00426482 /* PackedIn.xcdatamodeld */,
+				257CEA281A9F042800426482 /* PackItem.swift */,
+				257CEA261A9F042800426482 /* PackList.swift */,
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
+		25DF27AF1AA21F510008D072 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				257CEA241A9F032A00426482 /* PackListsViewController.swift */,
+				25733D2C1A9F170500B4EF5B /* PackItemsViewController.swift */,
+			);
+			name = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
