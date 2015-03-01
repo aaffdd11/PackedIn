@@ -88,6 +88,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             //3
             packItem.setValue(self.newPackItemInput.text, forKey: "name")
             packItem.setValue(self.packList, forKey: "belongTo")
+            packItem.setValue(0, forKey: "stats")
             
             //4
             var error: NSError?
@@ -138,6 +139,15 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         let packItem: PackItem = packItems[indexPath.section]
         tempCell.layer.cornerRadius = 5.0
         tempCell.textLabel!.text = packItem.name
+        
+        println(packItem.stats)
+        if packItem.stats == 1 {
+            tempCell.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 0.5)
+        } else if packItem.stats == 2 {
+            tempCell.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 0.5)
+        }
+        
+        
         if let font = UIFont(name: "HanziPen SC", size: 15) {
             tempCell.textLabel!.font = font
         } else {
@@ -160,22 +170,40 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         println(indexPath.section)
         
+        var packItem = self.packItems[indexPath.section]
+        
         var deleteRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除", handler:{action, indexpath in
-            println("DELETE•ACTION");
-        });
+            println("DELETE•ACTION")
+            
+            let managedContext = self.appDelegate.managedObjectContext!
+            managedContext.deleteObject(packItem)
+            
+            self.packItems.removeAtIndex(indexPath.section)
+
+            let sectionIndex: NSIndexSet = NSIndexSet(index: indexPath.section)
+            
+            self.packItemsTableView.deleteSections(sectionIndex, withRowAnimation: .Fade)
+        })
 
         
         var noNeedRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "不需要", handler:{action, indexpath in
-            println("NONEED•ACTION");
-        });
-        noNeedRowAction.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 1.0);
+            println("NONEED•ACTION")
+            
+            packItem.stats = 2
+            self.packItemsTableView.reloadData()
+        })
+        noNeedRowAction.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 1.0)
         
         var completeRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "完成", handler:{action, indexpath in
-            println("COMPLETE•ACTION");
-        });
-        completeRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0);
+            println("COMPLETE•ACTION")
+            
+            packItem.stats = 1
+            self.packItemsTableView.reloadData()
+            
+        })
+        completeRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0)
         
-        return [deleteRowAction, noNeedRowAction, completeRowAction];
+        return [deleteRowAction, noNeedRowAction, completeRowAction]
     }
     
     /*
