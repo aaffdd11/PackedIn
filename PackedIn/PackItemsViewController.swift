@@ -145,13 +145,37 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             println(UIFont.familyNames())
         }
         
-//        
-//        let cell = tempCell.textLabel as UILabel!
-//        cell.text = packItem.name
-        
-        // Configure the cell...
-        
         return tempCell
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        if editingStyle == .Delete {
+//            self.packItems.removeAtIndex(indexPath.section)
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//        } else if editingStyle == .Insert {
+//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+//        }
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+        println(indexPath.section)
+        
+        var deleteRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除", handler:{action, indexpath in
+            println("DELETE•ACTION");
+        });
+
+        
+        var noNeedRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "不需要", handler:{action, indexpath in
+            println("NONEED•ACTION");
+        });
+        noNeedRowAction.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 1.0);
+        
+        var completeRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "完成", handler:{action, indexpath in
+            println("COMPLETE•ACTION");
+        });
+        completeRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0);
+        
+        return [deleteRowAction, noNeedRowAction, completeRowAction];
     }
     
     /*
