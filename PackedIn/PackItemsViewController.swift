@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class PackItemsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
-
+    
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
     var packList: PackList?
     
@@ -22,6 +22,38 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var packItemsNavItem: UINavigationItem!
     @IBOutlet weak var newPackItemInput: UITextField!
     @IBOutlet weak var packItemsTableView: UITableView!
+    
+    func sortPackItems(this:PackItem, that:PackItem) -> Bool {
+        return this.stats.intValue < that.stats.intValue
+    }
+    
+    func updatePackItemLocation(packItem: PackItem, index: Int) {
+        packItems.removeAtIndex(index)
+        var i = 0
+        var indexToInsert = packItems.count
+        while i < packItems.count {
+            if packItems[i].stats == packItem.stats {
+                indexToInsert = i
+                break
+            }
+            i++
+        }
+        // insert to the index
+        packItems.insert(packItem, atIndex: indexToInsert)
+        
+        packItemsTableView.reloadData()
+    }
+    
+    func findFirstCompleted() -> Int{
+        var i:Int = 0
+        while i < packItems.count {
+            if packItems[i].stats == 1 {
+                return i
+            }
+            i++
+        }
+        return 0
+    }
     
     func loadInitialData() {
         let managedContext = appDelegate.managedObjectContext!
@@ -37,11 +69,13 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             println("Could not fetch \(error), \(error!.userInfo)")
         }
+        
+        packItems.sort(sortPackItems)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         loadInitialData()
         
@@ -50,7 +84,6 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         packItemsTableView.delegate = self
         packItemsTableView.dataSource = self
-
         
         packItemsTableView.registerClass(PackItemsTableViewCell.self, forCellReuseIdentifier: "packItemIdentifier")
         
@@ -65,7 +98,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             println("no desc yet")
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -159,18 +192,40 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if editingStyle == .Delete {
-//            self.packItems.removeAtIndex(indexPath.section)
-//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-//        } else if editingStyle == .Insert {
-//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-//        }
+        //        if editingStyle == .Delete {
+        //            self.packItems.removeAtIndex(indexPath.section)
+        //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        //        } else if editingStyle == .Insert {
+        //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        //        }
     }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         println(indexPath.section)
+//        var packItem = self.packItems[indexPath.section]
+        let managedContext = appDelegate.managedObjectContext!
+        var packItem = managedContext.objectWithID(self.packItems[indexPath.section].objectID) as PackItem
         
-        var packItem = self.packItems[indexPath.section]
+        let originalStats = packItem.stats
+        
+        var noNeedRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "不需要", handler:{action, indexpath in
+            println("NONEED•ACTION")
+            
+            packItem.stats = 2
+            
+            
+            self.updatePackItemLocation(packItem, index: indexPath.section)
+        })
+        noNeedRowAction.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 1.0)
+        
+        var completeRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "完成", handler:{action, indexpath in
+            println("COMPLETE•ACTION")
+            
+            packItem.stats = 1
+            self.updatePackItemLocation(packItem, index: indexPath.section)
+            
+        })
+        completeRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0)
         
         var deleteRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除", handler:{action, indexpath in
             println("DELETE•ACTION")
@@ -179,41 +234,26 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             managedContext.deleteObject(packItem)
             
             self.packItems.removeAtIndex(indexPath.section)
-
+            
             let sectionIndex: NSIndexSet = NSIndexSet(index: indexPath.section)
             
             self.packItemsTableView.deleteSections(sectionIndex, withRowAnimation: .Fade)
         })
-
         
-        var noNeedRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "不需要", handler:{action, indexpath in
-            println("NONEED•ACTION")
-            
-            packItem.stats = 2
-            self.packItemsTableView.reloadData()
-        })
-        noNeedRowAction.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 1.0)
         
-        var completeRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "完成", handler:{action, indexpath in
-            println("COMPLETE•ACTION")
-            
-            packItem.stats = 1
-            self.packItemsTableView.reloadData()
-            
-        })
-        completeRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0)
+        
         
         return [deleteRowAction, noNeedRowAction, completeRowAction]
     }
     
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
