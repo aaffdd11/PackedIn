@@ -37,6 +37,7 @@ class PackItemsTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 //
 //    //MARK: - horizontal pan gesture methods
 //    func handleStats(recognizer: UIPanGestureRecognizer) {

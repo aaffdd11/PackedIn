@@ -196,6 +196,7 @@
                                 <segue destination="zdH-tr-PJG" kind="unwind" unwindAction="unWind:" id="OMX-2Q-fqq"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="重置" id="Q3m-yD-vP5"/>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="qaH-v8-1rR" id="gAZ-Rx-CSl"/>
@@ -203,6 +204,7 @@
                         <outlet property="packItemsNavItem" destination="Hkq-kj-uc2" id="bP6-yT-ahK"/>
                         <outlet property="packItemsTableView" destination="HPm-Q8-1cz" id="cE5-Bv-HIo"/>
                         <outlet property="packListDescInput" destination="Nyo-oT-Mu8" id="i1r-FZ-CTv"/>
+                        <outlet property="resetButton" destination="Q3m-yD-vP5" id="Gss-oI-F36"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zfA-18-xwC" userLabel="First Responder" sceneMemberID="firstResponder"/>

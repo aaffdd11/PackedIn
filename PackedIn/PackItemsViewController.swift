@@ -12,6 +12,9 @@ import CoreData
 class PackItemsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    var managedContext: NSManagedObjectContext?
+    var refreshControl: UIRefreshControl!
+    
     var packList: PackList?
     
     var packItems = [PackItem]()
@@ -22,10 +25,22 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var packItemsNavItem: UINavigationItem!
     @IBOutlet weak var newPackItemInput: UITextField!
     @IBOutlet weak var packItemsTableView: UITableView!
+    @IBOutlet weak var resetButton: UIBarButtonItem!
     
     func sortPackItems(this:PackItem, that:PackItem) -> Bool {
         return this.stats.intValue < that.stats.intValue
     }
+//    
+//    func indexOfFirstCompletedOrNotNeeded() -> Int {
+//        var i = 0
+//        while i < packItems.count {
+//            if packItems[i].stats == 1 || packItems[i] == 2 {
+//                return i
+//            }
+//            i++
+//        }
+//        return packItems.count
+//    }
     
     func updatePackItemLocation(packItem: PackItem, index: Int) {
         packItems.removeAtIndex(index)
@@ -35,33 +50,48 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             if packItems[i].stats == packItem.stats {
                 indexToInsert = i
                 break
+            } else if packItems[i].stats == 2 {
+                indexToInsert = i
+                break
             }
             i++
         }
         // insert to the index
         packItems.insert(packItem, atIndex: indexToInsert)
         
+        refreshControl.beginRefreshing()
+        packItemsTableView.reloadData()
+        refreshControl.endRefreshing()
+        
+        
+    }
+    
+    func resetContent(sender: UIBarButtonItem) {
+        println("reset content")
+        // update get new array
+        var i = 0
+        while i < packItems.count {
+            packItems[i].stats = 0
+            i++
+        }
+        
+        var error : NSError? = nil
+        if !self.managedContext!.save(&error) { // 8
+            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            abort()
+        }
+        
+        // reload table
         packItemsTableView.reloadData()
     }
     
-    func findFirstCompleted() -> Int{
-        var i:Int = 0
-        while i < packItems.count {
-            if packItems[i].stats == 1 {
-                return i
-            }
-            i++
-        }
-        return 0
-    }
-    
-    func loadInitialData() {
-        let managedContext = appDelegate.managedObjectContext!
+    func loadTableData() {
+        
         let fetchRequest = NSFetchRequest(entityName:"PackItem")
         fetchRequest.predicate = NSPredicate(format: "belongTo = %@", argumentArray: [self.packList!])
         
         var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest,
+        let fetchedResults = managedContext!.executeFetchRequest(fetchRequest,
             error: &error) as [PackItem]?
         
         if let results = fetchedResults {
@@ -73,17 +103,22 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         packItems.sort(sortPackItems)
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        managedContext = appDelegate.managedObjectContext!
+        
         // Do any additional setup after loading the view.
-        loadInitialData()
         
         self.packListDescInput.delegate = self
         self.newPackItemInput.delegate = self
         
         packItemsTableView.delegate = self
         packItemsTableView.dataSource = self
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "renderView:", forControlEvents: UIControlEvents.AllEvents)
         
         packItemsTableView.registerClass(PackItemsTableViewCell.self, forCellReuseIdentifier: "packItemIdentifier")
         
@@ -97,6 +132,18 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             println("no desc yet")
         }
+        
+        resetButton.target = self
+        resetButton.action = "resetContent:"
+        
+        loadTableData()
+        
+        // reload table
+        refreshControl.beginRefreshing()
+        packItemsTableView.reloadData()
+        refreshControl.endRefreshing()
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,12 +155,11 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     {
         if (countElements(self.newPackItemInput.text) > 0) {
             //1
-            let managedContext = appDelegate.managedObjectContext!
             
             //2
             let entity =  NSEntityDescription.entityForName("PackItem",
                 inManagedObjectContext:
-                managedContext)
+                managedContext!)
             
             let packItem = PackItem(entity: entity!,
                 insertIntoManagedObjectContext:managedContext)
@@ -125,24 +171,29 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             
             //4
             var error: NSError?
-            if !managedContext.save(&error) {
+            if !managedContext!.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
             //5
-            packItems.insert(packItem, atIndex: 0)
+//            packItems.insert(packItem, atIndex: 0)
             self.newPackItemInput.text = ""
-            self.packItemsTableView.reloadData()
+            
+            refreshControl.beginRefreshing()
+            packItemsTableView.reloadData()
+            refreshControl.endRefreshing()
+            
+            println("text saved")
         }
         
         if (self.packListDescInput.text != self.packList?.desc) {
-            let managedContext = appDelegate.managedObjectContext!
             self.packList?.setValue(self.packListDescInput.text, forKey: "desc")
             var error: NSError?
-            if !managedContext.save(&error) {
+            if !managedContext!.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
         }
+        
         return true
     }
     
@@ -172,14 +223,11 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         let packItem: PackItem = packItems[indexPath.section]
         tempCell.layer.cornerRadius = 5.0
         tempCell.textLabel!.text = packItem.name
-        
-        println(packItem.stats)
         if packItem.stats == 1 {
             tempCell.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 0.5)
         } else if packItem.stats == 2 {
             tempCell.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 0.5)
         }
-        
         
         if let font = UIFont(name: "HanziPen SC", size: 15) {
             tempCell.textLabel!.font = font
@@ -201,25 +249,21 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
-        println(indexPath.section)
 //        var packItem = self.packItems[indexPath.section]
-        let managedContext = appDelegate.managedObjectContext!
-        var packItem = managedContext.objectWithID(self.packItems[indexPath.section].objectID) as PackItem
+        var packItem = managedContext!.objectWithID(self.packItems[indexPath.section].objectID) as PackItem
         
         let originalStats = packItem.stats
         
         var noNeedRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "不需要", handler:{action, indexpath in
-            println("NONEED•ACTION")
             
             packItem.stats = 2
-            
-            
             self.updatePackItemLocation(packItem, index: indexPath.section)
+            
         })
+        
         noNeedRowAction.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 1.0)
         
         var completeRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "完成", handler:{action, indexpath in
-            println("COMPLETE•ACTION")
             
             packItem.stats = 1
             self.updatePackItemLocation(packItem, index: indexPath.section)
@@ -228,10 +272,8 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         completeRowAction.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 1.0)
         
         var deleteRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除", handler:{action, indexpath in
-            println("DELETE•ACTION")
             
-            let managedContext = self.appDelegate.managedObjectContext!
-            managedContext.deleteObject(packItem)
+            self.managedContext!.deleteObject(packItem)
             
             self.packItems.removeAtIndex(indexPath.section)
             
@@ -239,9 +281,6 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             
             self.packItemsTableView.deleteSections(sectionIndex, withRowAnimation: .Fade)
         })
-        
-        
-        
         
         return [deleteRowAction, noNeedRowAction, completeRowAction]
     }
