@@ -129,7 +129,17 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         packItemsTableView.registerClass(PackItemsTableViewCell.self, forCellReuseIdentifier: "packItemIdentifier")
         
         renameTitle.text = packList?.name
+        renameTitle.backgroundColor = nil
+        
+        if let font = UIFont(name: "HanziPen SC", size: 20) {
+            renameTitle.font = font
+        } else {
+            println("Error loading Font, listing available fonts")
+            println(UIFont.familyNames())
+        }
+
         packItemsNavItem.title = packList?.name
+        
         
         newPackItemInput.attributedPlaceholder = NSAttributedString(string:"添加小东西",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -159,7 +169,6 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             if !managedContext!.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             } else {
-                println("title renamed")
                 packItemsNavItem.title = self.packList?.name
             }
         }
