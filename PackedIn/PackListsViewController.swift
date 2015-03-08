@@ -12,6 +12,7 @@ import CoreData
 class PackListsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    var managedContext: NSManagedObjectContext?
     
     var packLists = [PackList]()
     var packList: PackList?
@@ -26,10 +27,10 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func loadInitialData() {
-        let managedContext = appDelegate.managedObjectContext!
+        managedContext = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest(entityName:"PackList")
         var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest,
+        let fetchedResults = managedContext!.executeFetchRequest(fetchRequest,
             error: &error) as [PackList]?
         
         if let results = fetchedResults {
@@ -91,13 +92,10 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     {
         if (countElements(self.newPackListInput.text) > 0) {
             //1
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            let managedContext = appDelegate.managedObjectContext!
-            
             //2
             let entity =  NSEntityDescription.entityForName("PackList",
                 inManagedObjectContext:
-                managedContext)
+                managedContext!)
             
             let packList = PackList(entity: entity!,
                 insertIntoManagedObjectContext:managedContext)
@@ -108,7 +106,7 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
             
             //4
             var error: NSError?
-            if !managedContext.save(&error) {
+            if !managedContext!.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
@@ -140,6 +138,47 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return 1
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+            switch editingStyle {
+            case .Delete:
+                // remove the deleted item from the model
+                var listToDelete:PackList = self.packLists.removeAtIndex(indexPath.section)
+                
+                /////// delete the containing items
+                var itemsToDelete: [PackItem]
+                
+                let fetchRequest = NSFetchRequest(entityName:"PackItem")
+                fetchRequest.predicate = NSPredicate(format: "belongTo = %@", argumentArray: [listToDelete])
+                
+                var error: NSError?
+                let fetchedResults = managedContext!.executeFetchRequest(fetchRequest,
+                    error: &error) as [PackItem]?
+                
+                if let results = fetchedResults {
+                    itemsToDelete = results
+                    
+                    while itemsToDelete.count > 0 {
+                        managedContext!.deleteObject(itemsToDelete.removeLast() as PackItem)
+                    }
+                } else {
+                    println("Could not fetch \(error), \(error!.userInfo)")
+                }
+                
+                self.managedContext!.deleteObject(listToDelete)
+                
+                var saveError : NSError? = nil
+                if !self.managedContext!.save(&error) { // 8
+                    NSLog("Unresolved error \(saveError), \(saveError!.userInfo)")
+                    abort()
+                }
+                
+                let sectionIndex: NSIndexSet = NSIndexSet(index: indexPath.section)
+                self.packListsTableView.deleteSections(sectionIndex, withRowAnimation: .Fade)
+            default:
+                return
+            }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{

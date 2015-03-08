@@ -23,6 +23,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var packListDescInput: UITextField!
     @IBOutlet weak var packItemsNavItem: UINavigationItem!
+    @IBOutlet weak var renameTitle: UITextField!
     @IBOutlet weak var newPackItemInput: UITextField!
     @IBOutlet weak var packItemsTableView: UITableView!
     @IBOutlet weak var resetButton: UIBarButtonItem!
@@ -71,7 +72,6 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func resetContent(sender: UIBarButtonItem) {
-        println("reset content")
         // update get new array
         var i = 0
         while i < packItems.count {
@@ -86,11 +86,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         // reload table
-//        self.packItemsTableView.reloadData()
-        
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.packItemsTableView.reloadData()
-        })
+        self.packItemsTableView.reloadData()
         
     }
     
@@ -121,6 +117,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
         
         self.packListDescInput.delegate = self
+        self.renameTitle.delegate = self
         self.newPackItemInput.delegate = self
         
         packItemsTableView.delegate = self
@@ -131,6 +128,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         packItemsTableView.registerClass(PackItemsTableViewCell.self, forCellReuseIdentifier: "packItemIdentifier")
         
+        renameTitle.text = packList?.name
         packItemsNavItem.title = packList?.name
         
         newPackItemInput.attributedPlaceholder = NSAttributedString(string:"添加小东西",
@@ -146,11 +144,6 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         resetButton.action = "resetContent:"
         
         loadTableData()
-        
-//        // reload table
-//        packItemsTableView.reloadData()
-//        
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -160,6 +153,17 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool // called when 'return' key pressed. return NO to ignore.
     {
+        if (self.renameTitle.text != self.packList?.name) {
+            self.packList?.setValue(self.renameTitle.text, forKey: "name")
+            var error: NSError?
+            if !managedContext!.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            } else {
+                println("title renamed")
+                packItemsNavItem.title = self.packList?.name
+            }
+        }
+        
         if (countElements(self.newPackItemInput.text) > 0) {
             //1
             
@@ -185,6 +189,8 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             //5
 //            packItems.insert(packItem, atIndex: 0)
             self.newPackItemInput.text = ""
+            
+            packItems.insert(packItem, atIndex: 0)
             
             packItemsTableView.reloadData()
             
@@ -284,9 +290,7 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         var deleteRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "删除", handler:{action, indexpath in
             
             self.managedContext!.deleteObject(packItem)
-            
             self.packItems.removeAtIndex(indexPath.section)
-            
             let sectionIndex: NSIndexSet = NSIndexSet(index: indexPath.section)
             
             self.packItemsTableView.deleteSections(sectionIndex, withRowAnimation: .Fade)
