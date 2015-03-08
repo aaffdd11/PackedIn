@@ -25,9 +25,72 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
         // This line can be improved. does not have to loadInitialData every time.
         self.packListsTableView.reloadData()
     }
+//    
+//    func loadFakeData(){
+//        var listNames: [String] = ["野营", "朋友家留宿", "出国游", "简单两日周边游", "出远门"]
+//        var listDescs: [String] = ["爬山，郊游", "住个一两天", "这必须要记得不能忘记东西啊", "注意住宿卫生", "住酒店啦，离家远，许多东西不能忘记"]
+//        var itemNames: [String] = [
+//            "瑞士军刀",
+//            "墨镜",
+//            "花露水",
+//            "杀菌液",
+//            "创口贴",
+//            "云南白药",
+//            "游泳眼镜",
+//            "泳衣",
+//            "水壶",
+//            "零食防饥饿",
+//            "暖和的大衣或小被子",
+//            "帽子",
+//            "牙刷牙膏",
+//            "防风眼镜",
+//            "防潮垫",
+//            "帐篷"
+//        ]
+//        while listNames.count > 0 {
+//            let entity =  NSEntityDescription.entityForName("PackList",
+//                inManagedObjectContext:
+//                managedContext!)
+//            
+//            let packList = PackList(entity: entity!,
+//                insertIntoManagedObjectContext:managedContext)
+//            
+//            //3
+//            var tempName = listNames.removeLast()
+//            var tempDesc = listDescs.removeLast()
+//            packList.setValue(tempName, forKey: "name")
+//            packList.setValue(tempDesc, forKey: "desc")
+//            
+//            if listNames.count == 0{
+//                while itemNames.count > 0{
+//                    let itementity =  NSEntityDescription.entityForName("PackItem",
+//                        inManagedObjectContext:
+//                        managedContext!)
+//                    
+//                    let packItem = PackItem(entity: itementity!,
+//                        insertIntoManagedObjectContext:managedContext)
+//                    var tempitemname = itemNames.removeLast() as String
+//                    println(tempitemname)
+//                    println(packItem.objectID)
+//                    packItem.setValue(tempitemname, forKey: "name")
+//                    packItem.setValue(packList, forKey: "belongTo")
+//
+//                }
+//            }
+//            
+//            //4
+//            var error: NSError?
+//            if !managedContext!.save(&error) {
+//                println("Could not save \(error), \(error?.userInfo)")
+//            }
+//            
+//            //5
+////            packLists.insert(packList, atIndex: 0)
+//
+//        }
+//    }
     
     func loadInitialData() {
-        managedContext = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest(entityName:"PackList")
         var error: NSError?
         let fetchedResults = managedContext!.executeFetchRequest(fetchRequest,
@@ -42,8 +105,10 @@ class PackListsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        managedContext = appDelegate.managedObjectContext!
         
         // Do any additional setup after loading the view.
+//        loadFakeData()
         loadInitialData()
         
         self.newPackListInput.delegate = self
