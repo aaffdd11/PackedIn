@@ -196,7 +196,7 @@
                                 <segue destination="zdH-tr-PJG" kind="unwind" unwindAction="unWind:" id="OMX-2Q-fqq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="重置" id="Q3m-yD-vP5"/>
+                        <barButtonItem key="rightBarButtonItem" title="全部重置" id="Q3m-yD-vP5"/>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="qaH-v8-1rR" id="gAZ-Rx-CSl"/>

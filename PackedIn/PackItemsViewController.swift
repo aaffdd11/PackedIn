@@ -56,12 +56,16 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             i++
         }
+        
+        var error : NSError? = nil
+        if !self.managedContext!.save(&error) { // 8
+            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            abort()
+        }
         // insert to the index
         packItems.insert(packItem, atIndex: indexToInsert)
         
-        refreshControl.beginRefreshing()
         packItemsTableView.reloadData()
-        refreshControl.endRefreshing()
         
         
     }
@@ -82,7 +86,12 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         // reload table
-        packItemsTableView.reloadData()
+//        self.packItemsTableView.reloadData()
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.packItemsTableView.reloadData()
+        })
+        
     }
     
     func loadTableData() {
@@ -138,11 +147,9 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         loadTableData()
         
-        // reload table
-        refreshControl.beginRefreshing()
-        packItemsTableView.reloadData()
-        refreshControl.endRefreshing()
-        
+//        // reload table
+//        packItemsTableView.reloadData()
+//        
         
     }
     
@@ -179,11 +186,8 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
 //            packItems.insert(packItem, atIndex: 0)
             self.newPackItemInput.text = ""
             
-            refreshControl.beginRefreshing()
             packItemsTableView.reloadData()
-            refreshControl.endRefreshing()
             
-            println("text saved")
         }
         
         if (self.packListDescInput.text != self.packList?.desc) {
@@ -219,14 +223,20 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+
         let tempCell = tableView.dequeueReusableCellWithIdentifier("packItemIdentifier", forIndexPath: indexPath) as PackItemsTableViewCell
+        
         let packItem: PackItem = packItems[indexPath.section]
+        
         tempCell.layer.cornerRadius = 5.0
         tempCell.textLabel!.text = packItem.name
+
         if packItem.stats == 1 {
             tempCell.backgroundColor = UIColor(red: 0.298, green: 0.851, blue: 0.3922, alpha: 0.5)
         } else if packItem.stats == 2 {
             tempCell.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0, alpha: 0.5)
+        } else {
+            tempCell.backgroundColor = UIColor(white: 1, alpha: 0.7)
         }
         
         if let font = UIFont(name: "HanziPen SC", size: 15) {
@@ -239,20 +249,20 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
         return tempCell
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        //        if editingStyle == .Delete {
-        //            self.packItems.removeAtIndex(indexPath.section)
-        //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        //        } else if editingStyle == .Insert {
-        //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-        //        }
-    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {    }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
-//        var packItem = self.packItems[indexPath.section]
+
         var packItem = managedContext!.objectWithID(self.packItems[indexPath.section].objectID) as PackItem
         
-        let originalStats = packItem.stats
+        var resetRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "重置", handler:{action, indexpath in
+            
+            packItem.stats = 0
+            self.updatePackItemLocation(packItem, index: indexPath.section)
+            
+        })
+        
+        resetRowAction.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
         
         var noNeedRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "不需要", handler:{action, indexpath in
             
@@ -281,6 +291,12 @@ class PackItemsViewController: UIViewController, UITableViewDelegate, UITableVie
             
             self.packItemsTableView.deleteSections(sectionIndex, withRowAnimation: .Fade)
         })
+        
+        if packItem.stats == 1 {
+            return [deleteRowAction, noNeedRowAction, resetRowAction]
+        } else if packItem.stats == 2 {
+            return [deleteRowAction, resetRowAction, completeRowAction]
+        }
         
         return [deleteRowAction, noNeedRowAction, completeRowAction]
     }

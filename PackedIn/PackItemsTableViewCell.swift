@@ -21,6 +21,7 @@ class PackItemsTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .None
         self.backgroundColor = UIColor(white: 1.0, alpha: 0.7)
+        self.layer.cornerRadius = 5.0
 //        
 //        var recognizer = UIPanGestureRecognizer(target: self, action: "handleStats:")
 //        recognizer.delegate = self
